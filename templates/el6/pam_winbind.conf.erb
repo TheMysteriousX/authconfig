@@ -1,0 +1,58 @@
+#
+# pam_winbind configuration file
+#
+# /etc/security/pam_winbind.conf
+#
+
+[global]
+
+# turn on debugging
+<% if @pam_wb_debug == true -%>
+debug = yes
+<% else -%>
+;debug = no
+<% end -%>
+
+# turn on extended PAM state debugging
+<% if @pam_wb_debug_state == true -%>
+debug_state = yes
+<% else -%>
+;debug_state = no
+<% end -%>
+
+# request a cached login if possible
+# (needs "winbind offline logon = yes" in smb.conf)
+<% if @winbindoffline == true -%>
+cached_login = yes
+<% else -%>
+;cached_login = no
+<% end -%>
+
+# authenticate using kerberos
+<% if @pam_wb_krb5_auth == true -%>
+krb5_auth = yes
+<% else -%>
+;krb5_auth = no
+<% end -%>
+
+# when using kerberos, request a "FILE" krb5 credential cache type
+# (leave empty to just do krb5 authentication but not have a ticket
+# afterwards)
+krb5_ccache_type = <%= @pam_wb_krb5_ccache_type -%>
+
+# make successful authentication dependend on membership of one SID
+# (can also take a name)
+require_membership_of = <%= pam_wb_require_membership_of.join(', ') -%>
+
+# password expiry warning period in days
+;warn_pwd_expire = 14
+
+# omit pam conversations
+;silent = no
+
+# create homedirectory on the fly
+<% if @mkhomedir == true -%>
+mkhomedir = yes
+<% else -%>
+;mkhomedir = no
+<% end -%>

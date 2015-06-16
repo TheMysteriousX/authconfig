@@ -1,0 +1,153 @@
+Usage: authconfig [options] {--update|--updateall|--test|--probe|--restorebackup <name>|--savebackup <name>|--restorelastbackup}
+
+Options:
+    -h, --help              show this help message and exit
+  --enableshadow, --useshadow
+                        enable shadowed passwords by default
+    --disableshadow         disable shadowed passwords by default
+  --enablemd5, --usemd5
+                        enable MD5 passwords by default
+    --disablemd5            disable MD5 passwords by default
+  --passalgo=<descrypt|bigcrypt|md5|sha256|sha512>
+                        hash/crypt algorithm for new passwords
+    --enablenis             enable NIS for user information by default
+    --disablenis            disable NIS for user information by default
+    --nisdomain=<domain>    default NIS domain
+    --nisserver=<server>    default NIS server
+    --enableldap            enable LDAP for user information by default
+    --disableldap           disable LDAP for user information by default
+    --enableldapauth        enable LDAP for authentication by default
+    --disableldapauth       disable LDAP for authentication by default
+  --ldapserver=<server>
+                        default LDAP server hostname or URI
+    --ldapbasedn=<dn>       default LDAP base DN
+  --enableldaptls, --enableldapstarttls
+                        enable use of TLS with LDAP (RFC-2830)
+  --disableldaptls, --disableldapstarttls
+                        disable use of TLS with LDAP (RFC-2830)
+    --enablerfc2307bis      enable use of RFC-2307bis schema for LDAP user information lookups
+    --disablerfc2307bis     disable use of RFC-2307bis schema for LDAP user information lookups
+  --ldaploadcacert=<URL>
+                        load CA certificate from the URL
+    --enablesmartcard       enable authentication with smart card by default
+    --disablesmartcard      disable authentication with smart card by default
+  --enablerequiresmartcard
+                        require smart card for authentication by default
+  --disablerequiresmartcard
+                        do not require smart card for authentication by default
+  --smartcardmodule=<module>
+                        default smart card module to use
+  --smartcardaction=<0=Lock|1=Ignore>
+                        action to be taken on smart card removal
+    --enablefingerprint     enable authentication with fingerprint readers by default
+    --disablefingerprint    disable authentication with fingerprint readers by default
+    --enableecryptfs        enable automatic per-user ecryptfs
+    --disableecryptfs       disable automatic per-user ecryptfs
+    --enablekrb5            enable kerberos authentication by default
+    --disablekrb5           disable kerberos authentication by default
+    --krb5kdc=<server>      default kerberos KDC
+  --krb5adminserver=<server>
+                        default kerberos admin server
+    --krb5realm=<realm>     default kerberos realm
+    --enablekrb5kdcdns      enable use of DNS to find kerberos KDCs
+    --disablekrb5kdcdns     disable use of DNS to find kerberos KDCs
+    --enablekrb5realmdns    enable use of DNS to find kerberos realms
+  --disablekrb5realmdns
+                        disable use of DNS to find kerberos realms
+    --enablewinbind         enable winbind for user information by default
+    --disablewinbind        disable winbind for user information by default
+    --enablewinbindauth     enable winbind for authentication by default
+    --disablewinbindauth    disable winbind for authentication by default
+  --smbsecurity=<user|server|domain|ads>
+                        security mode to use for samba and winbind
+    --smbrealm=<realm>      default realm for samba and winbind when security=ads
+  --smbservers=<servers>
+                        names of servers to authenticate against
+  --smbworkgroup=<workgroup>
+                        workgroup authentication servers are in
+  --smbidmaprange=<lowest-highest>, --smbidmapuid=<lowest-highest>, --smbidmapgid=<lowest-highest>
+                        uid range winbind will assign to domain or ads users
+  --winbindseparator=<\>
+                        the character which will be used to separate the domain and user part of winbind-created user names if winbindusedefaultdomain is not enabled
+  --winbindtemplatehomedir=</home/%D/%U>
+                        the directory which winbind-created users will have as home directories
+  --winbindtemplateprimarygroup=<nobody>
+                        the group which winbind-created users will have as their primary group
+  --winbindtemplateshell=</bin/false>
+                        the shell which winbind-created users will have as their login shell
+  --enablewinbindusedefaultdomain
+                        configures winbind to assume that users with no domain in their user names are domain users
+  --disablewinbindusedefaultdomain
+                        configures winbind to assume that users with no domain in their user names are not domain users
+  --enablewinbindoffline
+                        configures winbind to allow offline login
+  --disablewinbindoffline
+                        configures winbind to prevent offline login
+    --enablewinbindkrb5     winbind will use Kerberos 5 to authenticate
+    --disablewinbindkrb5    winbind will use the default authentication method
+  --winbindjoin=<Administrator>
+                        join the winbind domain or ads realm now as this administrator
+    --enableipav2           enable IPAv2 for user information and authentication by default
+    --disableipav2          disable IPAv2 for user information and authentication by default
+  --ipav2domain=<domain>
+                        the IPAv2 domain the system should be part of
+    --ipav2realm=<realm>    the realm for the IPAv2 domain
+  --ipav2server=<servers>
+                        the server for the IPAv2 domain
+    --enableipav2nontp      do not setup the NTP against the IPAv2 domain
+    --disableipav2nontp     setup the NTP against the IPAv2 domain (default)
+  --ipav2join=<account>
+                        join the IPAv2 domain as this account
+    --enablewins            enable wins for hostname resolution
+    --disablewins           disable wins for hostname resolution
+    --enablepreferdns       prefer dns over wins or nis for hostname resolution
+    --disablepreferdns      do not prefer dns over wins or nis for hostname resolution
+    --enablehesiod          enable hesiod for user information by default
+    --disablehesiod         disable hesiod for user information by default
+    --hesiodlhs=<lhs>       default hesiod LHS
+    --hesiodrhs=<rhs>       default hesiod RHS
+    --enablesssd            enable SSSD for user information by default with manually managed configuration
+    --disablesssd           disable SSSD for user information by default (still used for supported configurations)
+    --enablesssdauth        enable SSSD for authentication by default with manually managed configuration
+    --disablesssdauth       disable SSSD for authentication by default (still used for supported configurations)
+    --enableforcelegacy     never use SSSD implicitly even for supported configurations
+    --disableforcelegacy    use SSSD implicitly if it supports the configuration
+    --enablecachecreds      enable caching of user credentials in SSSD by default
+    --disablecachecreds     disable caching of user credentials in SSSD by default
+    --enablecache           enable caching of user information by default (automatically disabled when SSSD is used)
+    --disablecache          disable caching of user information by default
+    --enablelocauthorize    local authorization is sufficient for local users
+  --disablelocauthorize
+                        authorize local users also through remote service
+    --enablepamaccess       check access.conf during account authorization
+    --disablepamaccess      do not check access.conf during account authorization
+    --enablesysnetauth      authenticate system accounts by network services
+    --disablesysnetauth     authenticate system accounts by local files only
+    --enablemkhomedir       create home directories for users on their first login
+    --disablemkhomedir      do not create home directories for users on their first login
+  --passminlen=<number>
+                        minimum length of a password
+  --passminclass=<number>
+                        minimum number of character classes in a password
+  --passmaxrepeat=<number>
+                        maximum number of same consecutive characters in a password
+  --passmaxclassrepeat=<number>
+                        maximum number of consecutive characters of same class in a password
+    --enablereqlower        require at least one lowercase character in a password
+    --disablereqlower       do not require lowercase characters in a password
+    --enablerequpper        require at least one uppercase character in a password
+    --disablerequpper       do not require uppercase characters in a password
+    --enablereqdigit        require at least one digit in a password
+    --disablereqdigit       do not require digits in a password
+    --enablereqother        require at least one other character in a password
+    --disablereqother       do not require other characters in a password
+    --nostart               do not start/stop portmap, ypbind, and nscd
+    --test                  do not update the configuration files, only print new settings
+  --update, --kickstart
+                        opposite of --test, update configuration files with changed settings
+    --updateall             update all configuration files
+    --probe                 probe network for defaults and print them
+    --savebackup=<name>     save a backup of all configuration files
+  --restorebackup=<name>
+                        restore the backup of configuration files
+    --restorelastbackup     restore the backup of configuration files saved before the previous configuration change
