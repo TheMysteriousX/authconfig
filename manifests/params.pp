@@ -1,4 +1,6 @@
 class authconfig::params {
+  $mollyguard                   = true
+  
   $smbservers                   = []
   $smbsecurity                  = ''
   $mkhomedir                    = false

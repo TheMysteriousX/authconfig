@@ -14,26 +14,27 @@ class authconfig (
 #authconfig --smbservers= --smbsecurity=ads --enablemkhomedir --smbrealm=dev.ja.net --enablewinbind --enablewinbindauth --enablesysnetauth 
 # --winbindtemplateshell=/bin/bash --smbworkgroup=DEV --enablewinbindusedefaultdomain --enablekrb5kdcdns --enablekrb5realmdns --enablewinbindoffline --updateall
 
+  $mollyguard               = $authconfig::params::mollyguard,
+
   # Authconfig Options
-  $mkhomedir                = $authconfig::params::mkhomedir,
-  $sysnetauth               = $authconfig::params::sysnetauth,
+  $mkhomedir                    = $authconfig::params::mkhomedir,
+  $sysnetauth                   = $authconfig::params::sysnetauth,
 
-  $winbind                  = $authconfig::params::winbind,
-  $winbindauth              = $authconfig::params::winbindauth,
-  $winbindusedefaultdomain  = $authconfig::params::winbindusedefaultdomain,
-  $winbindoffline           = $authconfig::params::winbindoffline,
-  $winbindtemplateshell     = $authconfig::params::winbindtemplateshell,
+  $winbind                      = $authconfig::params::winbind,
+  $winbindauth                  = $authconfig::params::winbindauth,
+  $winbindusedefaultdomain      = $authconfig::params::winbindusedefaultdomain,
+  $winbindoffline               = $authconfig::params::winbindoffline,
+  $winbindtemplateshell         = $authconfig::params::winbindtemplateshell,
 
-  $smbservers               = $authconfig::params::smbservers,
-  $smbsecurity              = $authconfig::params::smbsecurity,
-  $smbrealm                 = $authconfig::params::smbrealm,
-  $smbworkgroup             = $authconfig::params::smbworkgroup,
+  $smbservers                   = $authconfig::params::smbservers,
+  $smbsecurity                  = $authconfig::params::smbsecurity,
+  $smbrealm                     = $authconfig::params::smbrealm,
+  $smbworkgroup                 = $authconfig::params::smbworkgroup,
 
-  $krb5kdcdns               = $authconfig::params::krb5kdcdns,
-  $krb5realmdns             = $authconfig::params::krb5realmdns,
+  $krb5kdcdns                   = $authconfig::params::krb5kdcdns,
+  $krb5realmdns                 = $authconfig::params::krb5realmdns,
   
-	$nisdomain                = $authconfig::params::nisdomain,
- 
+	$nisdomain                    = $authconfig::params::nisdomain,
   
   $pam_wb_debug                 = $authconfig::params::pam_wb_debug,
   $pam_wb_debug_state           = $authconfig::params::pam_wb_debug_state,
@@ -44,6 +45,11 @@ class authconfig (
   # Internal Options
   $pamwinbindtemplate       = $authconfig::params::pamwinbindtemplate,
 ) inherits authconfig::params {
+  
+  # Has the mollyguard been disabled?
+  if $mollyguard {
+    fail('Mollyguard is set; user has not read the documentation.')
+  }
   
   # Valdiations
   validate_bool($krb5kdcdns)
