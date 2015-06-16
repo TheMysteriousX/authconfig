@@ -3,46 +3,47 @@
 #
 # /etc/security/pam_winbind.conf
 #
+# Managed by puppet for el7 - do not hand edit.
 
 [global]
 
 # turn on debugging
-<% if @pam_wb_debug == true %>
+<%- if @pam_wb_debug == true -%>
 debug = yes
-<% else %>
+<%- else -%>
 ;debug = no
-<% end %>
+<%- end -%>
 
 # turn on extended PAM state debugging
-<% if @pam_wb_debug_state == true %>
+<%- if @pam_wb_debug_state == true -%>
 debug_state = yes
-<% else %>
+<%- else -%>
 ;debug_state = no
-<% end %>
+<%- end -%>
 
 # request a cached login if possible
 # (needs "winbind offline logon = yes" in smb.conf)
-<% if @winbindoffline == true %>
+<%- if @winbindoffline == true -%>
 cached_login = yes
-<% else %>
+<%- else -%>
 ;cached_login = no
-<% end %>
+<%- end -%>
 
 # authenticate using kerberos
-<% if @pam_wb_krb5_auth == true %>
+<%- if @pam_wb_krb5_auth == true -%>
 krb5_auth = yes
-<% else %>
+<%- else -%>
 ;krb5_auth = no
-<% end %>
+<%- end -%>
 
 # when using kerberos, request a "FILE" krb5 credential cache type
 # (leave empty to just do krb5 authentication but not have a ticket
 # afterwards)
-krb5_ccache_type = <%= @pam_wb_krb5_ccache_type -%>
+krb5_ccache_type = <%= @pam_wb_krb5_ccache_type %>
 
 # make successful authentication dependend on membership of one SID
 # (can also take a name)
-require_membership_of = <%= pam_wb_require_membership_of.join(', ') -%>
+require_membership_of = <%= pam_wb_require_membership_of.join(', ') %>
 
 # password expiry warning period in days
 ;warn_pwd_expire = 14
@@ -51,8 +52,8 @@ require_membership_of = <%= pam_wb_require_membership_of.join(', ') -%>
 ;silent = no
 
 # create homedirectory on the fly
-<% if @mkhomedir == true %>
+<%- if @mkhomedir == true -%>
 mkhomedir = yes
-<% else %>
+<%- else -%>
 ;mkhomedir = no
-<% end %>
+<%- end -%>
