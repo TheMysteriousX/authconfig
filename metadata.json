@@ -1,0 +1,50 @@
+{
+  "author": "Adam Bishop <adam@omega.org.uk>",
+  "dependencies": [
+  	{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.6.0 <5.0.0" }
+  ],
+  "license": "apache-2.0",
+  "name": "adamb-authconfig",
+  "operatingsystem_support": [
+  	  {
+  	  	"operatingsystem": "redhat",
+  	  	"operatingsystemrelease":[ "6", "7" ]
+  	  },
+  	  {
+  	  	"operatingsystem": "centos",
+  	  	"operatingsystemrelease":[ "6", "7" ]
+  	  },
+  	  {
+  	  	"operatingsystem": "rhel",
+  	  	"operatingsystemrelease":[ "6", "7" ]
+  	  },
+  	  {
+  	  	"operatingsystem": "scientific",
+  	  	"operatingsystemrelease":[ "6", "7" ]
+  	  },
+  	  {
+  	  	"operatingsystem": "oraclelinux",
+  	  	"operatingsystemrelease":[ "6", "7" ]
+  	  }
+  ],
+  "project_page": "https://github.com/themysteriousx/authconfig/",
+  "issues_url": "https://github.com/themysteriousx/issues/",
+  "requirements": [
+  	{
+      "name": "puppet",
+      "version_requirement": ">=4.0.0 <5.0.0"
+    }
+  ],
+  "source": "https://github.com/themysteriousx/authconfig/",
+  "summary": "",
+  "tags": ["authconfig",
+  	"ldap",
+  	"kerberos",
+  	"mkhomedir",
+  	"ad",
+  	"activedirectory",
+  	"ipa",
+  	"freeipa"
+  ],
+  "version": "0.0.1"
+}
