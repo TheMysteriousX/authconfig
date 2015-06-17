@@ -84,4 +84,12 @@ class authconfig::service inherits authconfig {
     path    => ['/usr/bin', '/usr/sbin'],
     command =>  "authconfig ${args} --updateall",
   }
+
+  # Add some nice things to smb.conf if they're not there already.
+  augeas { "smb_config":
+    changes => [
+      "set /files/etc/samba/smb.conf/target[1]/winbind\ refresh\ tickets yes",
+      "set /files/etc/samba/smb.conf/target[1]/kerberos\ method secrets\ and\ keytab",
+    ],
+  } 
 }
