@@ -83,16 +83,5 @@ class authconfig::service inherits authconfig {
   exec {'authconfig':
     path    => ['/usr/bin', '/usr/sbin'],
     command =>  "authconfig ${args} --updateall",
-    onlyif => [
-      "test \"$(cat /var/run/puppet-authconfig)\" != \"${argshash}\"",
-    ],
-  }
-  
-  file { 'lockfile':
-    path => '/var/run/puppet-authconfig',
-    ensure  => 'present',
-    content => $argshash,
-    owner => 0,
-    group => 0,
   }
 }
