@@ -28,4 +28,22 @@ class authconfig::params {
 																															     7 => 'authconfig/el7/pam_winbind.conf.erb',
 																															     default => ''
 																															    }
+
+  # Presets
+  $activedirectory = {
+    smbsecurity                  => 'ads',
+    mkhomedir                    => true,
+    winbind                      => true,
+    winbindauth                  => true,
+    winbindusedefaultdomain      => true,
+    krb5kdcdns                   => true,
+    krb5realmdns                 => true,
+    winbindoffline               => true,
+    pam_wb_krb5_auth             => true,
+    pam_wb_krb5_ccache_type      => 'FILE',
+  }
+
+  $freeipa = {
+
+  }
 }

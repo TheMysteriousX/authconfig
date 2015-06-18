@@ -14,7 +14,11 @@ class authconfig (
 #authconfig --smbservers= --smbsecurity=ads --enablemkhomedir --smbrealm=dev.ja.net --enablewinbind --enablewinbindauth --enablesysnetauth 
 # --winbindtemplateshell=/bin/bash --smbworkgroup=DEV --enablewinbindusedefaultdomain --enablekrb5kdcdns --enablekrb5realmdns --enablewinbindoffline --updateall
 
-  $mollyguard               = $authconfig::params::mollyguard,
+  $mollyguard                   = $authconfig::params::mollyguard,
+
+  # Supported Presets
+  $use_activedirectory          = false,
+  $use_freeipa                  = false,
 
   # Authconfig Options
   $mkhomedir                    = $authconfig::params::mkhomedir,
@@ -51,7 +55,24 @@ class authconfig (
     fail('Mollyguard is set; user has not read the documentation.')
   }
   
-  # Valdiations
+  # How many presets have been activated?
+  $presets_active = count([$use_activedirectory, $use_freeipa], true)
+  if ($presets_active > 1) {
+    fail('Too many presets active! Please configure manually to join multiple different domains.')
+  }
+
+  # Load the presets, if they're set.
+  if ($use_activedirectory) {
+    $preset_config = $authconfig::params::activedirectory
+  }
+  elsif ($use_freeipa) {
+    $preset_config = $authconfig::params::freeipa
+  }
+  else {
+    $preset_config = {}
+  }
+
+  # Validate user input - we don't need to validate presets, because they're... preset.
   validate_bool($krb5kdcdns)
   validate_bool($krb5realmdns)
   validate_bool($winbindoffline)

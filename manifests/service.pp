@@ -1,66 +1,66 @@
 class authconfig::service inherits authconfig {
+
   # General
   
-  $generalflags = [ $mkhomedir ? { true => '--enablemkhomedir',
-                                   false => '--disablemkhomedir',
-                                   default => '--disablemkhomedir'
-                                  },
+  $generalflags = [ pick($preset_config[mkhomedir], $mkhomedir) ? { true => '--enablemkhomedir',
+                                                                    false => '--disablemkhomedir',
+                                                                    default => '--disablemkhomedir'
+                                                                   },
 
-                    $sysnetauth ? { true => '--enablesysnetauth',
-                                    false => '--disablesysnetauth',
-                                    default => '--disablsysnetauth'
-                                   }
+                    pick($preset_config[sysnetauth], $sysnetauth) ? { true => '--enablesysnetauth',
+                                                                      false => '--disablesysnetauth',
+                                                                      default => '--disablsysnetauth'
+                                                                     },
                    ]
 
   # Winbind
 
-  $winbindflags = [ $winbind ? { true => '--enablewinbind',
-                                 false => '--disablewinbind',
-                                 default => '--disablewinbind'
-                                },
+  $winbindflags = [ pick($preset_config[winbind], $winbind) ? { true => '--enablewinbind',
+                                                                false => '--disablewinbind',
+                                                                default => '--disablewinbind'
+                                                               },
 
-                    $winbindauth ? { true => '--enablewinbindauth',
-                                     false => '--disablewinbindauth',
-                                     default => '--disablewinbindauth'
-                                    },
+                    pick($preset_config[winbindauth], $winbindauth) ? { true => '--enablewinbindauth',
+                                                                        false => '--disablewinbindauth',
+                                                                        default => '--disablewinbindauth'
+                                                                       },
 
-                    $winbindusedefaultdomain ? { true => '--enablewinbindusedefaultdomain',
-                                                 false => '--disablewinbindusedefaultdomain',
-                                                 default => '--disablewinbindusedefaultdomain'
-                                                },
+                    pick($preset_config[winbindusedefaultdomain], $winbindusedefaultdomain) ? { true => '--enablewinbindusedefaultdomain',
+                                                                                                false => '--disablewinbindusedefaultdomain',
+                                                                                                default => '--disablewinbindusedefaultdomain'
+                                                                                               },
 
-                    $winbindoffline ? { true => '--enablewinbindoffline',
-                                        false => '--disablewinbindoffline',
-                                        default => '--disablewinbindoffline'
-                                       },
+                    pick($preset_config[winbindoffline], $winbindoffline) ? { true => '--enablewinbindoffline',
+                                                                              false => '--disablewinbindoffline',
+                                                                              default => '--disablewinbindoffline'
+                                                                             },
 
-                    "--winbindtemplateshell=${winbindtemplateshell}",
+                    join(["--winbindtemplateshell=", pick($preset_config[winbindtemplateshell], $winbindtemplateshell)], ""),
                    ]
-
 
   # Samba
   
-  $sambaflags = [ join([ "--smbservers=\"", join($smbservers, ' '), "\"" ]),
-                  "--smbsecurity=${smbsecurity}",
-                  "--smbrealm=${smbrealm}",
-                  "--smbworkgroup=${smbworkgroup}",
+  $sambaflags = [ join([ "--smbservers=\"", join(pick($preset_config[smbservers], $smbservers), ' '), "\"" ], ""),
+                  join(["--smbsecurity=", pick($preset_config[smbsecurity], $smbsecurity)], ""),
+                  join(["--smbrealm=", pick($preset_config[smbrealm], $smbrealm)], ""),
+                  join(["--smbworkgroup=", pick($preset_config[smbworkgroup], $smbworkgroup)], ""),
                  ]
   
   # Kerberos
   
-  $kerberosflags = [ $krb5kdcdns ? { true => '--enablekrb5kdcdns',
-                                     false => '--disablekrb5kdcdns',
-                                     default => '--disablekrb5kdcdns'
-                                    },
+  $kerberosflags = [ pick($preset_config[krb5kdcdns], $krb5kdcdns) ? { true => '--enablekrb5kdcdns',
+                                                                       false => '--disablekrb5kdcdns',
+                                                                       default => '--disablekrb5kdcdns'
+                                                                      },
                                         
-                     $krb5realmdns ? { true => '--enablekrb5realmdns',
-                                       false => '--disablekrb5realmdns',
-                                       default => '--disablekrb5realmdns'
-                                      },
+                     pick($preset_config[krb5realmdns], $krb5realmdns) ? { true => '--enablekrb5realmdns',
+                                                                           false => '--disablekrb5realmdns',
+                                                                           default => '--disablekrb5realmdns'
+                                                                          },
                     ]
 
   # NIS
-  $nisflags = [ "--nisdomain=${nisdomain}", ]
+  $nisflags = [ join(["--nisdomain=", pick($preset_config[nisdomain], $nisdomain)], ""), ]
 
   # Build the config into a single array to pass as parameters.
   
@@ -91,5 +91,5 @@ class authconfig::service inherits authconfig {
       "set /files/etc/samba/smb.conf/target[1]/winbind\ refresh\ tickets yes",
       "set /files/etc/samba/smb.conf/target[1]/kerberos\ method secrets\ and\ keytab",
     ],
-  } 
+  }
 }
