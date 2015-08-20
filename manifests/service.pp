@@ -90,6 +90,7 @@ class authconfig::service inherits authconfig {
   exec {'authconfig':
     path    => ['/usr/bin', '/usr/sbin'],
     command =>  "authconfig ${args} --updateall",
+    refreshonly => true,
   }
 
   # Add some nice things to smb.conf if they're not there already.
