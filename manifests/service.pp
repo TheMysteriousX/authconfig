@@ -36,6 +36,11 @@ class authconfig::service inherits authconfig {
                                                                              },
 
                     join(["--winbindtemplateshell=", pick($preset_config[winbindtemplateshell], $winbindtemplateshell)], ""),
+
+                    $::operatingsystemmajrelease == 7 ? { true => '--enablewinbindkrb5',
+                                                          false => '',
+                                                          default => ''
+                                                         },
                    ]
 
   # Samba
@@ -58,6 +63,8 @@ class authconfig::service inherits authconfig {
                                                                            default => '--disablekrb5realmdns'
                                                                           },
                     ]
+
+  # https://bugzilla.redhat.com/show_bug.cgi?id=1006191
 
   # NIS
   $nisflags = [ join(["--nisdomain=", pick($preset_config[nisdomain], $nisdomain)], ""), ]
@@ -86,10 +93,16 @@ class authconfig::service inherits authconfig {
   }
 
   # Add some nice things to smb.conf if they're not there already.
-  augeas { "smb_config":
+  augeas { "smb_config_el_all":
     changes => [
       "set /files/etc/samba/smb.conf/target[1]/winbind\ refresh\ tickets yes",
-      "set /files/etc/samba/smb.conf/target[1]/kerberos\ method secrets\ and\ keytab",
     ],
+  }
+  
+  if {$::operatingsystemmajrelease == 6) {
+    augeas { "smb_config_el_6":
+      changes => [
+          "set /files/etc/samba/smb.conf/target[1]/kerberos\ method secrets\ and\ keytab",
+    }
   }
 }
